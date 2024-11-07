@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-
 import tpe.utils.CSVReader;
 
 /**
@@ -26,9 +25,10 @@ public class Servicios {
 		this.tareasCriticas = new LinkedList<>();
 		this.tareasNoCriticas = new LinkedList<>();
 		this.tareasPorPrioridad = new Tree();
+		this.procesadores=new ArrayList<>();
 		CSVReader reader = new CSVReader();
-		reader.readProcessors(pathProcesadores);
-		reader.readTasks(pathTareas, tareasMap, tareasCriticas, tareasNoCriticas);
+		reader.readProcessors(pathProcesadores, this.procesadores);
+		reader.readTasks(pathTareas, tareasMap, tareasCriticas, tareasNoCriticas,tareasPorPrioridad);
 	}
 
 	/*

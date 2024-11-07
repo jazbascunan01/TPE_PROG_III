@@ -14,13 +14,13 @@ public class Tree {
 
     /* -- AGREGAR UNA NUEVA TAREA EN LA LISTA DE FACTOREO DEL NODO CON KEY = PRIORIDAD --*/
 
-    public void add(int value, Tarea task) {
+    public void add(int value, Tarea tarea) {
         if(value >=0 && value <=100) {
             if (this.root == null) {
                 this.root = new TreeNode(value, null, null);
-                this.root.addElement(task);
+                this.root.addElement(tarea);
             } else
-                add(value, this.root, task);
+                add(value, this.root, tarea);
         }
         else{
             //No se pueden agregar tareas con prioridades fuera del rango 0-100

@@ -39,11 +39,11 @@ public class Tarea {
     public void setPrioridad(Integer prioridad) {
         this.prioridad = prioridad;
     }
-    public String toString(){
-        return  " ID: " + this.id +
-                " Nombre: " + this.nombre +
-                " Tiempo: " + this.tiempo +
-                " Critica" + this.critica +
-                " Prioridad: " + this.prioridad;
+    public String toString() {
+        return "ID: " + this.id + "\n" +
+               "Nombre: " + this.nombre + "\n" +
+               "Tiempo: " + this.tiempo + " minutos\n" +
+               "Es crítica: " + (this.critica ? "Sí" : "No") + "\n" +
+               "Prioridad: " + this.prioridad + "\n";
     }
 }

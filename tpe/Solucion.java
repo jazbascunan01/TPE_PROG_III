@@ -28,13 +28,13 @@ public class Solucion {
         return asignacion.isEmpty();
     }
     public Solucion copiar(){
-        Solucion solucion= new Solucion(new ArrayList<>());
-        solucion.setTiempo(tiempoEjecucion);
-        solucion.setCont(this.cont);
-        for(Procesador p:this.asignacion){
-            solucion.addAsignacion(p.copiar());
+        Solucion copia = new Solucion();
+        copia.setTiempo(this.tiempoEjecucion);
+        copia.setCont(this.cont);
+        for (Procesador p : this.asignacion) {
+            copia.addAsignacion(p.copiar()); // Copiar las tareas asignadas también
         }
-        return solucion;
+        return copia;
 
     }
     public int getCont(){
@@ -78,8 +78,8 @@ public class Solucion {
     }
     public boolean contieneTarea(Tarea tarea) {
         for (Procesador p : asignacion) {
-            if(p.contieneTarea(tarea)){
-                return true;
+            if (p.contieneTarea(tarea)) {
+                return true; // Tarea ya asignada
             }
         }
         return false;

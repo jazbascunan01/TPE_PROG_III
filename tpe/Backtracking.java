@@ -32,30 +32,32 @@ public class Backtracking {
     }
 
     private void asignarTareas(Solucion parcial){
-        parcial.incrCont();
         if(tareas.isEmpty()){
             if(this.sol.isEmpty() || parcial.getTiempo()<sol.getTiempo()){
-                sol = parcial.copiar();// borrar la solucion anterior y copiar la nueva
+                sol = parcial.copiar(); // Copiar la nueva solución
             }
-        }else{
+        } else {
             IteratorP<Procesador> it = new IteratorP<>(parcial.getAsignacion().iterator());
-            Tarea t = tareas.getFirst();
+            Tarea t = tareas.getFirst(); // Primera tarea sin asignar
             while(it.hasNext()){
                 Procesador p = it.next();
                 if((!t.getCritica() || (t.getCritica() && p.cuentaTareasCriticas()<2)) &&
-                        (p.isRefrigerado() || (!p.isRefrigerado() && p.getTiempoEjecucion()+t.getTiempo()<=this.tiempoEjecucion))){
-                    if(this.sol.isEmpty() || (p.getTiempoEjecucion()+t.getTiempo() < this.sol.getTiempo())){
+                    (p.isRefrigerado() || (!p.isRefrigerado() && p.getTiempoEjecucion()+t.getTiempo()<=this.tiempoEjecucion))){
+                    // Verificar si la tarea ya está asignada
+                    if(!parcial.contieneTarea(t)){
                         p.asignarTarea(t);
                         tareas.removeFirst();
                         parcial.actualizarTiempoEjecucion(p);
-                        asignarTareas(parcial);
+                        
+                        asignarTareas(parcial); // Llamada recursiva
+                        
+                        // Backtracking: deshacer cambios
                         parcial.actualizarTiempoEjecucion(p,t);
-                        tareas.addFirst(t);
                         p.removerTarea(t);
-
+                        tareas.addFirst(t); // Restaurar la tarea
                     }
                 }
             }
         }
-    }
+    }        
 }

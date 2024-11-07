@@ -9,13 +9,15 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 import tpe.Tarea;
+import tpe.Tree;
+import tpe.Procesador;
 
 public class CSVReader {
 
 	public CSVReader() {
 	}
 
-	public void readTasks(String taskPath, HashMap<String, Tarea> tareaMap,LinkedList<Tarea> tareasCriticas, LinkedList<Tarea> tareasNoCriticas ) {
+	public void readTasks(String taskPath, HashMap<String, Tarea> tareaMap,LinkedList<Tarea> tareasCriticas, LinkedList<Tarea> tareasNoCriticas,Tree prioridadTree ) {
 
 		// Obtengo una lista con las lineas del archivo
 		// lines.get(0) tiene la primer linea del archivo
@@ -32,16 +34,17 @@ public class CSVReader {
 			// Aca instanciar lo que necesiten en base a los datos leidos
 			Tarea tarea = new Tarea(id, nombre, tiempo, critica, prioridad);
 			tareaMap.put(id, tarea); // Agregar la tarea al mapa
-			if (critica) {
+			if (critica && !tareasCriticas.contains(tarea)) {
 				tareasCriticas.add(tarea);
-			} else {
+			} else if (!critica && !tareasNoCriticas.contains(tarea)) {
 				tareasNoCriticas.add(tarea);
 			}
+			prioridadTree.add(tarea.getPrioridad(), tarea);
 		}
 
 	}
 
-	public void readProcessors(String processorPath) {
+	public void readProcessors(String processorPath,ArrayList<Procesador> procesadores) {
 
 		// Obtengo una lista con las lineas del archivo
 		// lines.get(0) tiene la primer linea del archivo
@@ -55,6 +58,8 @@ public class CSVReader {
 			Boolean refrigerado = Boolean.parseBoolean(line[2].trim());
 			Integer anio = Integer.parseInt(line[3].trim());
 			// Aca instanciar lo que necesiten en base a los datos leidos
+			Procesador p=new Procesador(id, false, 0);
+			if(!procesadores.contains(p))procesadores.add(p);
 		}
 
 	}

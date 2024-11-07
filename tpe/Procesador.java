@@ -20,6 +20,9 @@ public class Procesador {
     }
 
     public boolean asignarTarea(Tarea tarea) {
+        if (this.tareas.contains(tarea)) {
+            return false; // Tarea ya asignada
+        }
         if (tarea.getCritica()) {
             if (tareasCriticasCount >= 2) return false;
             tareasCriticasCount++;
