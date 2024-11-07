@@ -6,18 +6,17 @@ import java.util.ArrayList;
 public class Procesador {
     private String id;
     private boolean refrigerado;
-    private int tiempoMaximo;
+    private int tiempoEjecucion;
     private ArrayList<Tarea> tareas;
     private int tareasCriticasCount;
-    private int tiempoActual;
 
-    public Procesador(String id, boolean refrigerado, int tiempoMaximo) {
+
+    public Procesador(String id, boolean refrigerado, int tiempoEjecucion) {
         this.id = id;
         this.refrigerado = refrigerado;
-        this.tiempoMaximo = tiempoMaximo;
-        this.tareas = new ArrayList<>();
+        this.tiempoEjecucion = tiempoEjecucion;
+        this.tareas = new ArrayList<Tarea>();
         this.tareasCriticasCount = 0;
-        this.tiempoActual = 0;
     }
 
     public boolean asignarTarea(Tarea tarea) {
@@ -25,22 +24,30 @@ public class Procesador {
             if (tareasCriticasCount >= 2) return false;
             tareasCriticasCount++;
         }
-        if (!refrigerado && tiempoActual + tarea.getTiempo() > tiempoMaximo) return false;
 
         tareas.add(tarea);
-        tiempoActual += tarea.getTiempo();
+        this.tiempoEjecucion = this.tiempoEjecucion + tarea.getTiempo();
         return true;
     }
-
+    public boolean contieneTarea(Tarea tarea){
+        return this.tareas.contains(tarea);
+    }
     public void removerTarea(Tarea tarea) {
         if (tareas.remove(tarea)) {
-            tiempoActual -= tarea.getTiempo();
+            this.tiempoEjecucion = this.tiempoEjecucion - tarea.getTiempo();
             if (tarea.getCritica()) tareasCriticasCount--;
         }
     }
+    public Procesador copiar(){
+        Procesador copia = new Procesador(this.id, this.refrigerado, this.tiempoEjecucion);
+        for(Tarea tarea : this.tareas){
+            copia.asignarTarea(tarea);//hacer add tarea
+        }
+        return copia;
+    }
 
-    public int getTiempoTotal() {
-        return tiempoActual;
+    public int size(){
+        return this.tareas.size();
     }
 
     public int cuentaTareasCriticas() {
@@ -57,7 +64,7 @@ public class Procesador {
 
     @Override
     public String toString() {
-        return "Procesador{" + "id='" + id + '\'' + ", tareas=" + tareas + ", tiempoActual=" + tiempoActual + '}';
+        return "Procesador{" + "id='" + id + '\'' + ", tareas=" + tareas + ", tiempoActual=" + '}';
     }
 
     /**
@@ -77,15 +84,15 @@ public class Procesador {
     /**
      * @return int return the tiempoMaximo
      */
-    public int getTiempoMaximo() {
-        return tiempoMaximo;
+    public int getTiempoEjecucion() {
+        return tiempoEjecucion;
     }
 
     /**
      * @param tiempoMaximo the tiempoMaximo to set
      */
-    public void setTiempoMaximo(int tiempoMaximo) {
-        this.tiempoMaximo = tiempoMaximo;
+    public void setTiempoEjecucion(int tiempoEjecucion) {
+        this.tiempoEjecucion = tiempoEjecucion;
     }
 
     /**
@@ -116,18 +123,5 @@ public class Procesador {
         this.tareasCriticasCount = tareasCriticasCount;
     }
 
-    /**
-     * @return int return the tiempoActual
-     */
-    public int getTiempoActual() {
-        return tiempoActual;
-    }
-
-    /**
-     * @param tiempoActual the tiempoActual to set
-     */
-    public void setTiempoActual(int tiempoActual) {
-        this.tiempoActual = tiempoActual;
-    }
 
 }

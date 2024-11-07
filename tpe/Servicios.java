@@ -1,5 +1,6 @@
 package tpe;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,7 +17,7 @@ public class Servicios {
 	private LinkedList<Tarea> tareasCriticas;
 	private LinkedList<Tarea> tareasNoCriticas;
 	private Tree tareasPorPrioridad;
-
+	private ArrayList<Procesador> procesadores;
 	/*
 	 * Expresar la complejidad temporal del constructor.
 	 */
@@ -57,4 +58,8 @@ public class Servicios {
 		return tareasPorPrioridad.getElemBetween(prioridadInferior, prioridadSuperior);
 	}
 
+	public Solucion asignarTareas(int tiempoEjecucion){
+		Backtracking backtracking = new Backtracking(this.procesadores, this.tareasCriticas, this.tareasNoCriticas);
+		return backtracking.asignarTareas(tiempoEjecucion);
+	}
 }
