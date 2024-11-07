@@ -38,7 +38,7 @@ public class Backtracking {
                 sol = parcial.copiar();// borrar la solucion anterior y copiar la nueva
             }
         }else{
-            IteratorP<Procesador> it = new IteratorP<>(parcial.getAsignacion()().iterator());
+            IteratorP<Procesador> it = new IteratorP<>(parcial.getAsignacion().iterator());
             Tarea t = tareas.getFirst();
             while(it.hasNext()){
                 Procesador p = it.next();
