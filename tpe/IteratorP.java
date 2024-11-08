@@ -2,8 +2,9 @@ package tpe;
 
 import java.util.Iterator;
 
-public class IteratorP<Procesador> implements Iterator<Procesador> {
+public class IteratorP<Procesador> implements Iterator<Procesador>{
     private Iterator<Procesador> iteradorProcesador;
+
     public IteratorP(Iterator<Procesador> iteradorProcesador) {
         this.iteradorProcesador = iteradorProcesador;
     }

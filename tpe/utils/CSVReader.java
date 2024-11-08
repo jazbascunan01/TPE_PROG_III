@@ -1,5 +1,9 @@
 package tpe.utils;
 
+import tpe.Procesador;
+import tpe.Tarea;
+import tpe.Tree;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -8,60 +12,63 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import tpe.Tarea;
-import tpe.Tree;
-import tpe.Procesador;
-
 public class CSVReader {
 
 	public CSVReader() {
 	}
-
-	public void readTasks(String taskPath, HashMap<String, Tarea> tareaMap,LinkedList<Tarea> tareasCriticas, LinkedList<Tarea> tareasNoCriticas,Tree prioridadTree ) {
-
-		// Obtengo una lista con las lineas del archivo
-		// lines.get(0) tiene la primer linea del archivo
-		// lines.get(1) tiene la segunda linea del archivo... y así
-		ArrayList<String[]> lines = this.readContent(taskPath);
-
-		for (String[] line : lines) {
-			// Cada linea es un arreglo de Strings, donde cada posicion guarda un elemento
+	
+	public void readTareas(String tareaPath, HashMap<String, Tarea> tareaHashMap, LinkedList<Tarea> criticas, LinkedList<Tarea> noCriticas, Tree priorityTareaTree) {
+		ArrayList<String[]> lines = this.readContent(tareaPath);
+		
+		// Cada linea es un arreglo de Strings, donde cada posicion guarda un elemento
+		for (String[] line: lines) {
 			String id = line[0].trim();
 			String nombre = line[1].trim();
 			Integer tiempo = Integer.parseInt(line[2].trim());
 			Boolean critica = Boolean.parseBoolean(line[3].trim());
 			Integer prioridad = Integer.parseInt(line[4].trim());
-			// Aca instanciar lo que necesiten en base a los datos leidos
+			
 			Tarea tarea = new Tarea(id, nombre, tiempo, critica, prioridad);
-			tareaMap.put(id, tarea); // Agregar la tarea al mapa
-			if (critica && !tareasCriticas.contains(tarea)) {
-				tareasCriticas.add(tarea);
-			} else if (!critica && !tareasNoCriticas.contains(tarea)) {
-				tareasNoCriticas.add(tarea);
-			}
-			prioridadTree.add(tarea.getPrioridad(), tarea);
+			
+			addTareaHash(tarea, tareaHashMap);
+			addTareasCriticals(tarea, criticas, noCriticas);
+			addTareaTree(tarea, priorityTareaTree);
 		}
-
+		
+	}
+	
+	private void addTareaHash(Tarea tarea, HashMap<String, Tarea> tareaHashMap){
+		String id = tarea.getId();
+		tareaHashMap.put(id, tarea);
+	}
+	
+	private void addTareasCriticals(Tarea tarea, LinkedList<Tarea> criticas, LinkedList<Tarea> noCriticas){
+		if(tarea.getCritica())
+			criticas.addFirst(tarea);
+		else 
+			noCriticas.addFirst(tarea);
 	}
 
-	public void readProcessors(String processorPath,ArrayList<Procesador> procesadores) {
-
-		// Obtengo una lista con las lineas del archivo
-		// lines.get(0) tiene la primer linea del archivo
-		// lines.get(1) tiene la segunda linea del archivo... y así
-		ArrayList<String[]> lines = this.readContent(processorPath);
-
-		for (String[] line : lines) {
-			// Cada linea es un arreglo de Strings, donde cada posicion guarda un elemento
+	private void addTareaTree(Tarea tarea, Tree tree){
+		tree.add(tarea.getPrioridad(), tarea);
+	}
+	
+	public void readProcesadores(String procesadorPath, ArrayList<Procesador> procesadores) {
+		
+		ArrayList<String[]> lines = this.readContent(procesadorPath);
+		
+		for (String[] line: lines) {
 			String id = line[0].trim();
 			String codigo = line[1].trim();
 			Boolean refrigerado = Boolean.parseBoolean(line[2].trim());
 			Integer anio = Integer.parseInt(line[3].trim());
-			// Aca instanciar lo que necesiten en base a los datos leidos
-			Procesador p=new Procesador(id, false, 0);
-			if(!procesadores.contains(p))procesadores.add(p);
-		}
+			Procesador p = new Procesador(refrigerado, id, codigo, anio);
+			if(!procesadores.contains(p)){
+				procesadores.add(p);
+			}
 
+		}
+		
 	}
 
 	private ArrayList<String[]> readContent(String path) {
@@ -87,8 +94,8 @@ public class CSVReader {
 					e1.printStackTrace();
 				}
 		}
-
+		
 		return lines;
 	}
-
+	
 }

@@ -1,64 +1,37 @@
 package tpe;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Solucion {
 
-    private ArrayList<Procesador> asignacion;
-    private int tiempoEjecucion, cont;
+    private ArrayList<Procesador> procesadores;
+    private int tiempoEjecucion;
+    private int contadorEstados;
 
-    // Constructor vacío
-    public Solucion() {
-        this.asignacion = new ArrayList<Procesador>();
-        this.tiempoEjecucion = 0; // inicia en 0
-        this.cont = 0;
-    }
-
-    // Constructor con lista de procesadores
     public Solucion(ArrayList<Procesador> procesadores) {
-        this.asignacion = new ArrayList<>(procesadores);
-        this.tiempoEjecucion = 0; // inicia en 0
-        this.cont = 0;
+        this.procesadores = new ArrayList<>(procesadores);
+        this.tiempoEjecucion = 0;
+        this.contadorEstados = 0; // preguntar si esta bien tomarlo como 0 o -1
     }
 
-
-    
-    public boolean isEmpty(){
-        return asignacion.isEmpty();
+    public Solucion() {
+        this.procesadores = new ArrayList<>();
+        this.tiempoEjecucion = 0;
+        this.contadorEstados = 0; // preguntar si esta bien tomarlo como 0 o -1
     }
-    public Solucion copiar(){
-        Solucion copia = new Solucion();
-        copia.setTiempo(this.tiempoEjecucion);
-        copia.setCont(this.cont);
-        for (Procesador p : this.asignacion) {
-            copia.addAsignacion(p.copiar()); // Copiar las tareas asignadas también
+
+    public boolean isEmpty() {
+        return procesadores.isEmpty();
+    }
+
+    public Solucion copy(){ // si agregamos atributos tenerlo en cuenta
+        Solucion sol = new Solucion(new ArrayList<>());
+        sol.setTiempoEjecucion(this.tiempoEjecucion);
+        sol.setContadorEstados(this.contadorEstados);
+        for (Procesador p : this.procesadores){
+            sol.addProcesador(p.copy());
         }
-        return copia;
-
-    }
-    public int getCont(){
-        return cont;
-    }
-    public void setCont(int contador){
-        this.cont=contador;
-    }
-    public int getTiempo() {
-        return tiempoEjecucion;
-    }
-
-    public void setTiempo(int tiempo) {
-        this.tiempoEjecucion = tiempo;
-    }
-
-
-    public void addAsignacion(Procesador procesador) {
-        if (!asignacion.contains(procesador)) {
-            asignacion.add(procesador);
-        }
-        if(procesador.getTiempoEjecucion()>this.tiempoEjecucion){
-            this.tiempoEjecucion = procesador.getTiempoEjecucion();
-        }
+        return sol;
     }
 
     public void actualizarTiempoEjecucion(Procesador p) {
@@ -73,36 +46,53 @@ public class Solucion {
         }
     }
 
-    public List<Procesador> getAsignacion() {
-        return new ArrayList<Procesador>(asignacion);
+    public int getContadorEstados() {
+        return contadorEstados;
     }
-    public boolean contieneTarea(Tarea tarea) {
-        for (Procesador p : asignacion) {
-            if (p.contieneTarea(tarea)) {
-                return true; // Tarea ya asignada
+
+    public void setContadorEstados(int contadorEstados) {
+        this.contadorEstados = contadorEstados;
+    }
+
+    public int getTiempoEjecucion() {
+        return tiempoEjecucion;
+    }
+
+    public void setTiempoEjecucion(int tiempoEjecucion) {
+        this.tiempoEjecucion = tiempoEjecucion;
+    }
+
+    public ArrayList<Procesador> getProcesadores() {
+        return new ArrayList<Procesador>(procesadores);
+    }
+
+    public void addProcesador(Procesador p) {
+        this.procesadores.add(p);
+        if(p.getTiempoEjecucion()>this.tiempoEjecucion){
+            this.tiempoEjecucion = p.getTiempoEjecucion();
+        }
+    }
+
+    public boolean containsTarea(Tarea t) {
+        for (Procesador p : procesadores) {
+            if(p.containsTarea(t)){
+                return true;
             }
         }
         return false;
     }
-    public void incrCont() {
-        this.cont++;
-    }
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Asignación de tareas:\n");
 
-        for (Procesador procesador : this.asignacion) {
-            sb.append("Procesador ID: ").append(procesador.getId()).append("\n");
-            for (Tarea tarea : procesador.getTareas()) {
-                sb.append("  Tarea ID: ").append(tarea.getId())
-                        .append(" Nombre: ").append(tarea.getNombre())
-                        .append(" Tiempo: ").append(tarea.getTiempo())
-                        .append(" Prioridad: ").append(tarea.getPrioridad()).append("\n");
-            }
+    public void incrementarContadorEstados() {
+        this.contadorEstados++;
+    }
+
+    public String toString(){
+        String texto =" Solucion Obtenida: ";
+        for(Procesador p: this.procesadores){
+            texto = texto + p.toString() + " - ";
         }
-        sb.append("Tiempo máximo entre todos los procesadores: ").append(this.tiempoEjecucion);
-        return sb.toString();
+        texto = texto + "\nTiempo de ejecucion: " + this.tiempoEjecucion;
+        texto = texto + "\nContador de estados: " + this.contadorEstados;
+        return texto;
     }
-
 }

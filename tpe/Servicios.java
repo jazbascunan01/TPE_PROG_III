@@ -2,9 +2,10 @@ package tpe;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import java.util.LinkedList;
-import java.util.List;
 import tpe.utils.CSVReader;
+
 
 /**
  * NO modificar la interfaz de esta clase ni sus métodos públicos.
@@ -12,54 +13,69 @@ import tpe.utils.CSVReader;
  * de implementación.
  */
 public class Servicios {
-	private HashMap<String, Tarea> tareasMap;
-	private LinkedList<Tarea> tareasCriticas;
-	private LinkedList<Tarea> tareasNoCriticas;
-	private Tree tareasPorPrioridad;
-	private ArrayList<Procesador> procesadores;
+
+	//Estructuras donde se van a guardar las tareas y los servicios
+
+	private final HashMap<String, Tarea> tasksHash;
+	private final LinkedList<Tarea> criticalTareas;
+	private final LinkedList<Tarea> NonCriticalTareas;
+	private final Tree priorityTareaTree;
+	private final ArrayList<Procesador> procesadores;
+
+
 	/*
-	 * Expresar la complejidad temporal del constructor.
-	 */
-	public Servicios(String pathProcesadores, String pathTareas) {
-		this.tareasMap = new HashMap<String, Tarea>();
-		this.tareasCriticas = new LinkedList<>();
-		this.tareasNoCriticas = new LinkedList<>();
-		this.tareasPorPrioridad = new Tree();
+     * Expresar la complejidad temporal del constructor.
+     * O(1) agregar tareas al hash
+     * O(1) agregar tareas a las listas
+     * O(h) agregar tareas al árbol, donde "h" es la altura del mismo.
+     */
+	public Servicios(String pathProcesadores, String pathTareas){
+		this.tasksHash = new HashMap<String, Tarea>();
+		this.criticalTareas = new LinkedList<Tarea>();
+		this.NonCriticalTareas = new LinkedList<Tarea>();
+		this.priorityTareaTree = new Tree();
 		this.procesadores=new ArrayList<>();
+
+
 		CSVReader reader = new CSVReader();
-		reader.readProcessors(pathProcesadores, this.procesadores);
-		reader.readTasks(pathTareas, tareasMap, tareasCriticas, tareasNoCriticas,tareasPorPrioridad);
+		reader.readProcesadores(pathProcesadores, this.procesadores);
+		reader.readTareas(pathTareas, this.tasksHash, this.criticalTareas, this.NonCriticalTareas, this.priorityTareaTree);
 	}
-
+	
 	/*
-	 * Servicio 1: Dado un identificador de tarea obtener toda la información de la
-	 * tarea asociada.
-	 * Complejidad: O(1).
-	 */
+     * Expresar la complejidad temporal del servicio 1.
+     * O(1) Constante ????
+     */
 	public Tarea servicio1(String ID) {
-		return this.tareasMap.get(ID);
+		if(this.tasksHash.containsKey(ID))
+			return this.tasksHash.get(ID);
+		return null;
 	}
 
-	/*
-	 * Servicio 2: Filtrar tareas críticas o no críticas.
-	 * Complejidad: O(1).
-	 */
-	public List<Tarea> servicio2(boolean esCritica) {
-		return esCritica ? tareasCriticas : tareasNoCriticas;
+    /*
+     * Expresar la complejidad temporal del servicio 2.
+     * O(1) Constante ????
+     */
+	public LinkedList<Tarea> servicio2(boolean esCritica) {
+		if(esCritica)
+			return this.criticalTareas;
+		return this.NonCriticalTareas;
 	}
 
-	/*
-	 * Servicio 3: Obtener todas las tareas entre dos niveles de prioridad
-	 * indicados.
-	 * Complejidad: O(h + m), donde h es la altura del árbol y m es el número de
-	 * tareas en el rango.
-	 */
-	public List<Tarea> servicio3(int prioridadInferior, int prioridadSuperior) {
-		return tareasPorPrioridad.getElemBetween(prioridadInferior, prioridadSuperior);
+    /*
+     * Expresar la complejidad temporal del servicio 3.
+     * n es la cantidad de nodos del árbol
+     * O(n) en el peor de los casos que todas las prioridades
+     * del arbol esten entre el intervalo dado.
+     * Segun la consigna el peor de los casos seria O(100)
+     */
+	public LinkedList<Tarea> servicio3(int prioridadInferior, int prioridadSuperior) {
+		return this.priorityTareaTree.getElemBetween(prioridadInferior, prioridadSuperior);
 	}
 
-	public Solucion asignarTareas(int tiempoEjecucion){
-		Backtracking backtracking = new Backtracking(this.procesadores, this.tareasCriticas, this.tareasNoCriticas);
-		return backtracking.asignarTareas(tiempoEjecucion);
+	public Solucion asignarTareasBack(int tiempoEjecucion){
+		Backtracking back = new Backtracking(this.procesadores, this.criticalTareas, this.NonCriticalTareas);
+		return back.asignarTareasBack(tiempoEjecucion);
 	}
+
 }
