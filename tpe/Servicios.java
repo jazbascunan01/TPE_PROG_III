@@ -77,5 +77,9 @@ public class Servicios {
 		Backtracking back = new Backtracking(this.procesadores, this.criticalTareas, this.NonCriticalTareas);
 		return back.asignarTareasBack(tiempoEjecucion);
 	}
-
+    public Solucion asignarTareasGreedy() {
+        // Creamos una nueva instancia de Greedy pasándole las tareas críticas y no críticas
+        Greedy greedy = new Greedy(this.procesadores, this.criticalTareas, this.NonCriticalTareas);
+        return greedy.asignarTareasGreedy();
+    }
 }

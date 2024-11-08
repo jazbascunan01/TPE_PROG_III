@@ -74,7 +74,7 @@ public class Procesador {
         String texto= "\nProcesador: " + this.idProcesador + "\n";
         texto = texto + " Tareas: ";
         for(Tarea t: this.tareas){
-            texto = texto + t.toString() + " | ";
+            texto = texto + t.toString();
         }
         return texto;
     }

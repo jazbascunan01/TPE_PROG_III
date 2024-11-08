@@ -85,14 +85,44 @@ public class Solucion {
     public void incrementarContadorEstados() {
         this.contadorEstados++;
     }
+@Override
+public String toString() {
+    // Usamos StringBuilder para optimizar el manejo de cadenas
+    StringBuilder texto = new StringBuilder();
 
-    public String toString(){
-        String texto =" Solucion Obtenida: ";
-        for(Procesador p: this.procesadores){
-            texto = texto + p.toString() + " - ";
+    // Agrega un encabezado visualmente atractivo
+    texto.append("========================================\n");
+    texto.append("           Solución Obtenida           \n");
+    texto.append("========================================\n");
+
+    // Añade la lista de procesadores con viñetas
+    texto.append("Procesadores involucrados: ");
+    if (this.procesadores.isEmpty()) {
+        texto.append("No se encontraron procesadores.\n");
+    } else {
+        // Agrega cada procesador en una misma línea, separados por guiones
+        for (int i = 0; i < this.procesadores.size(); i++) {
+            Procesador p = this.procesadores.get(i);
+            texto.append("").append(p.toString());
+            if (i < this.procesadores.size() - 1) {
+                texto.append("");
+            }
         }
-        texto = texto + "\nTiempo de ejecucion: " + this.tiempoEjecucion;
-        texto = texto + "\nContador de estados: " + this.contadorEstados;
-        return texto;
+        texto.append("\n");
     }
+
+    // Añade el tiempo de ejecución y contador de estados
+    texto.append("\nInformación adicional:\n");
+    texto.append("  -- Tiempo de ejecución: ").append(this.tiempoEjecucion).append(" segundos\n");
+    texto.append("  -- Contador de estados: ").append(this.contadorEstados).append("\n");
+
+    // Cierra el formato con líneas divisorias
+    texto.append("\n****************************************\n");
+
+    // Retorna la cadena formateada
+    return texto.toString();
+}
+
+
+    
 }
