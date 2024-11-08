@@ -13,13 +13,13 @@ public class Backtracking {
 
     // Constructor que recibe los procesadores y las listas de tareas
     public Backtracking(ArrayList<Procesador> procesadores, LinkedList<Tarea> tareasCriticas, LinkedList<Tarea> tareasNoCriticas) {
-        this.mejorSolucion = new Solucion();
         this.procesadores = procesadores;
         this.tareasCriticas = tareasCriticas;
         this.tareas = new LinkedList<>();
         this.tareas.addAll(tareasCriticas);  // Añade las tareas críticas
         this.tareas.addAll(tareasNoCriticas); // Luego las no críticas
         this.limiteTiempo = 0;  // Limite temporal por defecto
+        this.mejorSolucion = new Solucion();
     }
 
     /**

@@ -87,42 +87,30 @@ public class Solucion {
     }
 @Override
 public String toString() {
-    // Usamos StringBuilder para optimizar el manejo de cadenas
-    StringBuilder texto = new StringBuilder();
+    StringBuilder texto = new StringBuilder(
+        "\n========================================\n" +
+        "           Solución Obtenida           \n" +
+        "========================================\n" +
+        "Procesadores involucrados:\n"
+    );
 
-    // Agrega un encabezado visualmente atractivo
-    texto.append("========================================\n");
-    texto.append("           Solución Obtenida           \n");
-    texto.append("========================================\n");
-
-    // Añade la lista de procesadores con viñetas
-    texto.append("Procesadores involucrados: ");
     if (this.procesadores.isEmpty()) {
-        texto.append("No se encontraron procesadores.\n");
+        texto.append("  No se encontraron procesadores.\n");
     } else {
-        // Agrega cada procesador en una misma línea, separados por guiones
-        for (int i = 0; i < this.procesadores.size(); i++) {
-            Procesador p = this.procesadores.get(i);
-            texto.append("").append(p.toString());
-            if (i < this.procesadores.size() - 1) {
-                texto.append("");
-            }
+        for (Procesador p : this.procesadores) {
+            texto.append(p.toString()).append("\n");
         }
-        texto.append("\n");
     }
 
-    // Añade el tiempo de ejecución y contador de estados
-    texto.append("\nInformación adicional:\n");
-    texto.append("  -- Tiempo de ejecución: ").append(this.tiempoEjecucion).append(" segundos\n");
-    texto.append("  -- Contador de estados: ").append(this.contadorEstados).append("\n");
+    texto.append(String.format(
+        "\nInformación adicional:\n" +
+        "  -- Tiempo de ejecución: %d segundos\n" +
+        "  -- Contador de estados: %d\n" +
+        "****************************************\n",
+        this.tiempoEjecucion, this.contadorEstados
+    ));
 
-    // Cierra el formato con líneas divisorias
-    texto.append("\n****************************************\n");
-
-    // Retorna la cadena formateada
     return texto.toString();
 }
-
-
     
 }

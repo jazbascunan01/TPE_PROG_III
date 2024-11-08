@@ -4,33 +4,33 @@ import java.util.ArrayList;
 
 public class Procesador {
 
-    private ArrayList<Tarea> tareas;
-    private boolean refrigerado;
-    private String idProcesador;
+    private String id;
     private String codigo;
+    private boolean refrigerado;
     private int anioFuncionamiento;
-    private int tiempoEjecucion;//ultimos 2 atributos ver de actualizarlos en el add
+    private ArrayList<Tarea> tareas;
+    private int tiempoEjecucion;
     private int cantCriticas;
 
-    public Procesador(boolean refrigerado, String idProcesador, String codigo, int anioFuncionamiento) {
-        this.tareas = new ArrayList<Tarea>();
+    public Procesador(String id, String codigo,boolean refrigerado, int anioFuncionamiento) {
+        this.tareas = new ArrayList<>();
         this.refrigerado = refrigerado;
-        this.idProcesador = idProcesador;
+        this.id = id;
         this.codigo = codigo;
         this.anioFuncionamiento = anioFuncionamiento;
         this.tiempoEjecucion = 0;
         this.cantCriticas = 0;
     }
 
-    public Procesador copy(){
-        Procesador copia = new Procesador(this.refrigerado, this.idProcesador, this.codigo, this.anioFuncionamiento);
-        for(Tarea t : this.tareas){
+    public Procesador copy() {
+        Procesador copia = new Procesador(this.id, this.codigo, this.refrigerado, this.anioFuncionamiento);
+        for (Tarea t : this.tareas) {
             copia.addTarea(t);//hacer add tarea
         }
         return copia;
     }
 
-    public int size(){
+    public int size() {
         return this.tareas.size();
     }
 
@@ -42,23 +42,23 @@ public class Procesador {
         this.tiempoEjecucion = tiempoEjecucion;
     }
 
-    public void addTarea(Tarea t){
+    public void addTarea(Tarea t) {
         this.tareas.add(t);
         this.tiempoEjecucion = this.tiempoEjecucion + t.getTiempo();
-        if(t.getCritica()){
+        if (t.getCritica()) {
             this.cantCriticas++;
         }
     }
 
-    public void deleteTarea(Tarea t){
+    public void deleteTarea(Tarea t) {
         this.tareas.remove(t);
         this.tiempoEjecucion = this.tiempoEjecucion - t.getTiempo();
-        if(t.getCritica()){
+        if (t.getCritica()) {
             this.cantCriticas--;
         }
     }
 
-    public boolean containsTarea(Tarea t){
+    public boolean containsTarea(Tarea t) {
         return this.tareas.contains(t);
     }
 
@@ -70,12 +70,34 @@ public class Procesador {
         return this.cantCriticas;
     }
 
-    public String toString(){
-        String texto= "\nProcesador: " + this.idProcesador + "\n";
-        texto = texto + " Tareas: ";
-        for(Tarea t: this.tareas){
-            texto = texto + t.toString();
+    @Override
+    public String toString() {
+        StringBuilder texto = new StringBuilder();
+    
+        // Longitud total del marco
+        int longitudLinea = 45;
+        
+        // Texto del procesador centrado
+        String procesadorTexto = "Procesador: " + this.id;
+        int espaciosLado = (longitudLinea - procesadorTexto.length() - 2) / 2; // -2 por los asteriscos laterales
+    
+        // Enmarcar con asteriscos y añadir el procesador
+        texto.append("****************************************\n");
+        texto.append("*").append(" ".repeat(longitudLinea - 2)).append("*\n"); // Línea vacía
+        texto.append("*").append(" ".repeat(espaciosLado)).append(procesadorTexto)
+             .append(" ".repeat(longitudLinea - espaciosLado - procesadorTexto.length() - 2)).append("*\n");
+        texto.append("*").append(" ".repeat(longitudLinea - 2)).append("*\n"); // Línea vacía
+        texto.append("****************************************\n");
+    
+        texto.append(" Tareas:\n");
+    
+        // Añadimos cada tarea relacionada
+        for (Tarea t : this.tareas) {
+            texto.append(t.toString());
         }
-        return texto;
+    
+        return texto.toString();
     }
+    
+
 }

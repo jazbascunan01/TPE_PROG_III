@@ -54,30 +54,17 @@ public class Tarea {
 
 @Override
 public String toString() {
-    // Usamos StringBuilder para mejorar la legibilidad y el rendimiento
-    StringBuilder texto = new StringBuilder();
-
-    // Agregamos un salto de línea antes del encabezado para separarlo del resto
-    texto.append("\n");
-
-    // Añadimos el encabezado de la tarea con formato
-    texto.append("========================================\n");
-    texto.append("            Tarea Detalles             \n");
-    texto.append("========================================\n");
-
-    // Agregamos la información de la tarea de forma clara
-    texto.append("ID: ").append(this.id).append("\n");
-    texto.append("Nombre: ").append(this.nombre).append("\n");
-    texto.append("Tiempo: ").append(this.tiempo).append(" unidades de tiempo\n");
-    texto.append("Crítica: ").append(this.critica ? "Sí" : "No").append("\n");
-    texto.append("Prioridad: ").append(this.prioridad).append("\n");
-
-    // Cierra el formato con una línea divisoria
-    texto.append("----------------------------------------\n");
-
-    // Retorna el texto formateado
-    return texto.toString();
+    return String.format(
+        "\n========================================\n" +
+        "            Tarea Detalles             \n" +
+        "========================================\n" +
+        "ID: %s\nNombre: %s\nTiempo: %d unidades de tiempo\nCrítica: %s\nPrioridad: %d\n" +
+        "----------------------------------------\n", 
+        this.id, this.nombre, this.tiempo, this.critica ? "Sí" : "No", this.prioridad
+    );
 }
+
+
 
     
 }

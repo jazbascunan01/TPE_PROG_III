@@ -1,8 +1,5 @@
 package tpe.utils;
 
-import tpe.Procesador;
-import tpe.Tarea;
-import tpe.Tree;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -12,13 +9,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import tpe.Procesador;
+import tpe.Tarea;
+import tpe.Tree;
 public class CSVReader {
 
 	public CSVReader() {
 	}
 	
-	public void readTareas(String taskPath, HashMap<String, Tarea> taskHashMap, LinkedList<Tarea> criticas, LinkedList<Tarea> noCriticas, Tree priorityTareaTree) {
-		ArrayList<String[]> lines = this.readContent(taskPath);
+	public void readTareas(String tareaPath, HashMap<String, Tarea> tareaHashMap, LinkedList<Tarea> criticas, LinkedList<Tarea> noCriticas, Tree priorityTareaTree) {
+		ArrayList<String[]> lines = this.readContent(tareaPath);
 		
 		// Cada linea es un arreglo de Strings, donde cada posicion guarda un elemento
 		for (String[] line: lines) {
@@ -28,29 +28,29 @@ public class CSVReader {
 			Boolean critica = Boolean.parseBoolean(line[3].trim());
 			Integer prioridad = Integer.parseInt(line[4].trim());
 			
-			Tarea task = new Tarea(id, nombre, tiempo, critica, prioridad);
+			Tarea tarea = new Tarea(id, nombre, tiempo, critica, prioridad);
 			
-			addTareaHash(task, taskHashMap);
-			addTareasCriticals(task, criticas, noCriticas);
-			addTareaTree(task, priorityTareaTree);
+			addTareaHash(tarea, tareaHashMap);
+			addTareasCriticals(tarea, criticas, noCriticas);
+			addTareaTree(tarea, priorityTareaTree);
 		}
 		
 	}
 	
-	private void addTareaHash(Tarea task, HashMap<String, Tarea> taskHashMap){
-		String id = task.getId();
-		taskHashMap.put(id, task);
+	private void addTareaHash(Tarea tarea, HashMap<String, Tarea> tareaHashMap){
+		String id = tarea.getId();
+		tareaHashMap.put(id, tarea);
 	}
 	
-	private void addTareasCriticals(Tarea task, LinkedList<Tarea> criticas, LinkedList<Tarea> noCriticas){
-		if(task.getCritica())
-			criticas.addFirst(task);
+	private void addTareasCriticals(Tarea tarea, LinkedList<Tarea> criticas, LinkedList<Tarea> noCriticas){
+		if(tarea.getCritica())
+			criticas.addFirst(tarea);
 		else 
-			noCriticas.addFirst(task);
+			noCriticas.addFirst(tarea);
 	}
 
-	private void addTareaTree(Tarea task, Tree tree){
-		tree.add(task.getPrioridad(), task);
+	private void addTareaTree(Tarea tarea, Tree tree){
+		tree.add(tarea.getPrioridad(), tarea);
 	}
 	
 	public void readProcesadores(String processorPath, ArrayList<Procesador> procesadores) {
@@ -62,7 +62,7 @@ public class CSVReader {
 			String codigo = line[1].trim();
 			Boolean refrigerado = Boolean.parseBoolean(line[2].trim());
 			Integer anio = Integer.parseInt(line[3].trim());
-			Procesador p = new Procesador(refrigerado, id, codigo, anio);
+			Procesador p = new Procesador(id, codigo, refrigerado, anio);
 			if(!procesadores.contains(p)){
 				procesadores.add(p);
 			}
@@ -72,7 +72,7 @@ public class CSVReader {
 	}
 
 	private ArrayList<String[]> readContent(String path) {
-		ArrayList<String[]> lines = new ArrayList<String[]>();
+		ArrayList<String[]> lines = new ArrayList<>();
 
 		File file = new File(path);
 		FileReader fileReader = null;
