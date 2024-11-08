@@ -17,8 +17,8 @@ public class CSVReader {
 	public CSVReader() {
 	}
 	
-	public void readTareas(String tareaPath, HashMap<String, Tarea> tareaHashMap, LinkedList<Tarea> criticas, LinkedList<Tarea> noCriticas, Tree priorityTareaTree) {
-		ArrayList<String[]> lines = this.readContent(tareaPath);
+	public void readTareas(String taskPath, HashMap<String, Tarea> taskHashMap, LinkedList<Tarea> criticas, LinkedList<Tarea> noCriticas, Tree priorityTareaTree) {
+		ArrayList<String[]> lines = this.readContent(taskPath);
 		
 		// Cada linea es un arreglo de Strings, donde cada posicion guarda un elemento
 		for (String[] line: lines) {
@@ -28,34 +28,34 @@ public class CSVReader {
 			Boolean critica = Boolean.parseBoolean(line[3].trim());
 			Integer prioridad = Integer.parseInt(line[4].trim());
 			
-			Tarea tarea = new Tarea(id, nombre, tiempo, critica, prioridad);
+			Tarea task = new Tarea(id, nombre, tiempo, critica, prioridad);
 			
-			addTareaHash(tarea, tareaHashMap);
-			addTareasCriticals(tarea, criticas, noCriticas);
-			addTareaTree(tarea, priorityTareaTree);
+			addTareaHash(task, taskHashMap);
+			addTareasCriticals(task, criticas, noCriticas);
+			addTareaTree(task, priorityTareaTree);
 		}
 		
 	}
 	
-	private void addTareaHash(Tarea tarea, HashMap<String, Tarea> tareaHashMap){
-		String id = tarea.getId();
-		tareaHashMap.put(id, tarea);
+	private void addTareaHash(Tarea task, HashMap<String, Tarea> taskHashMap){
+		String id = task.getId();
+		taskHashMap.put(id, task);
 	}
 	
-	private void addTareasCriticals(Tarea tarea, LinkedList<Tarea> criticas, LinkedList<Tarea> noCriticas){
-		if(tarea.getCritica())
-			criticas.addFirst(tarea);
+	private void addTareasCriticals(Tarea task, LinkedList<Tarea> criticas, LinkedList<Tarea> noCriticas){
+		if(task.getCritica())
+			criticas.addFirst(task);
 		else 
-			noCriticas.addFirst(tarea);
+			noCriticas.addFirst(task);
 	}
 
-	private void addTareaTree(Tarea tarea, Tree tree){
-		tree.add(tarea.getPrioridad(), tarea);
+	private void addTareaTree(Tarea task, Tree tree){
+		tree.add(task.getPrioridad(), task);
 	}
 	
-	public void readProcesadores(String procesadorPath, ArrayList<Procesador> procesadores) {
+	public void readProcesadores(String processorPath, ArrayList<Procesador> procesadores) {
 		
-		ArrayList<String[]> lines = this.readContent(procesadorPath);
+		ArrayList<String[]> lines = this.readContent(processorPath);
 		
 		for (String[] line: lines) {
 			String id = line[0].trim();
