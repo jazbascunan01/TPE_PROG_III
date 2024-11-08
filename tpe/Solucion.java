@@ -11,25 +11,25 @@ public class Solucion {
     public Solucion(ArrayList<Procesador> procesadores) {
         this.procesadores = new ArrayList<>(procesadores);
         this.tiempoEjecucion = 0;
-        this.contadorEstados = 0; // preguntar si esta bien tomarlo como 0 o -1
+        this.contadorEstados = 0;
     }
 
     public Solucion() {
         this.procesadores = new ArrayList<>();
         this.tiempoEjecucion = 0;
-        this.contadorEstados = 0; // preguntar si esta bien tomarlo como 0 o -1
+        this.contadorEstados = 0;
     }
 
     public boolean isEmpty() {
         return procesadores.isEmpty();
     }
 
-    public Solucion copy(){ // si agregamos atributos tenerlo en cuenta
+    public Solucion copiar(){ 
         Solucion sol = new Solucion(new ArrayList<>());
         sol.setTiempoEjecucion(this.tiempoEjecucion);
         sol.setContadorEstados(this.contadorEstados);
         for (Procesador p : this.procesadores){
-            sol.addProcesador(p.copy());
+            sol.addProcesador(p.copiar());
         }
         return sol;
     }
@@ -63,7 +63,7 @@ public class Solucion {
     }
 
     public ArrayList<Procesador> getProcesadores() {
-        return new ArrayList<Procesador>(procesadores);
+        return new ArrayList<>(procesadores);
     }
 
     public void addProcesador(Procesador p) {

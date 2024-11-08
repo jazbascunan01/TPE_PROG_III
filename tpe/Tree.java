@@ -1,81 +1,58 @@
 package tpe;
 import java.util.LinkedList;
 
-/* -- Árbol de busqueda binaria por prioridad (0-100) con lista de factoreo (tareas que cumplen con dicha prioridad) --*/
-
 public class Tree {
 
-    private TreeNode root;
+    private TreeNode raiz;
 
     public Tree() {
-        this.root = null;
+        this.raiz = null;
     }
 
-
-    /* -- AGREGAR UNA NUEVA TAREA EN LA LISTA DE FACTOREO DEL NODO CON KEY = PRIORIDAD --*/
-
-    public void add(int value, Tarea tarea) {
-        if(value >=0 && value <=100) {
-            if (this.root == null) {
-                this.root = new TreeNode(value, null, null);
-                this.root.addElement(tarea);
+    public void add(int valor, Tarea tarea) {
+        if(valor >=0 && valor <=100) {
+            if (this.raiz == null) {
+                this.raiz = new TreeNode(valor, null, null);
+                this.raiz.addElement(tarea);
             } else
-                add(value, this.root, tarea);
-        }
-        else{
-            //No se pueden agregar tareas con prioridades fuera del rango 0-100
+                add(valor, this.raiz, tarea);
         }
     }
 
-    /*
-     * h es la altura del árbol
-     * O(h) porque en el peor de los casos el nuevo valor pasa a ser mi hoja más lejana.
-     */
-
-    private void add(int value, TreeNode actual, Tarea task) {
-        if (value < actual.getKey()) {
+    private void add(int valor, TreeNode actual, Tarea task) {
+        if (valor < actual.getKey()) {
 
             if (actual.getLeft() == null){
-                TreeNode node = new TreeNode(value, null, null);
+                TreeNode node = new TreeNode(valor, null, null);
                 node.addElement(task);
                 actual.setLeft(node);
             }
             else
-                add(value, actual.getLeft(), task);
+                add(valor, actual.getLeft(), task);
         }
 
-        else if (value > actual.getKey()) {
+        else if (valor > actual.getKey()) {
 
             if (actual.getRight() == null) {
-                TreeNode node = new TreeNode(value, null, null);
+                TreeNode node = new TreeNode(valor, null, null);
                 node.addElement(task);
                 actual.setRight(node);
             } else
-                add(value, actual.getRight(), task);
+                add(valor, actual.getRight(), task);
         }
         else{
             actual.addElement(task);
         }
     }
 
-
-
-    /* -- BUSCA TODAS LAS TAREAS QUE SE ENCUENTRAN DENTRO DE UN RANGO DE PRIORIDADES --*/
-
     public LinkedList<Tarea> getElemBetween (int minor, int mayor){
         LinkedList<Tarea> list = new LinkedList<>();
 
         if (!this.isEmpty())
-            getElemBetween(minor, mayor, list, this.root);
+            getElemBetween(minor, mayor, list, this.raiz);
 
         return list;
     }
-
-    /*
-     * n es la cantidad de nodos del árbol.
-     * O(n) porque en el peor de los casos quiero obtener los elementos del árbol completo
-     */
-
 
     private void getElemBetween (int minor, int mayor, LinkedList<Tarea> list, TreeNode actual){
         if(actual != null){
@@ -107,20 +84,6 @@ public class Tree {
     }
 
     public boolean isEmpty(){
-        return this.root == null;
+        return this.raiz == null;
     }
-
-    public void printInOrder() {
-        printInOrder(this.root);
-    }
-
-    private void printInOrder(TreeNode node) {
-        if (node == null)
-            return;
-        
-        printInOrder(node.getLeft());
-        System.out.print(node.getKey() + " ");
-        printInOrder(node.getRight());
-    }
-
 }

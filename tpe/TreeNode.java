@@ -1,7 +1,9 @@
 package tpe;
+
 import java.util.LinkedList;
 
 public class TreeNode {
+
     int key;
     TreeNode left, right;
     LinkedList<Tarea> elementsList;
@@ -10,7 +12,7 @@ public class TreeNode {
         this.key = value;
         this.left = left;
         this.right = right;
-        this.elementsList = new LinkedList<Tarea>();
+        this.elementsList = new LinkedList<>();
     }
 
     public int getKey() {
@@ -41,10 +43,6 @@ public class TreeNode {
         return this.left == null && this.right == null;
     }
 
-    public boolean hasTwoChildren() {
-        return this.left != null && this.right != null;
-    }
-
     public void addElement(Tarea task) {
         this.elementsList.addFirst(task);
     }
@@ -53,6 +51,7 @@ public class TreeNode {
         return this.elementsList;
     }
 
+    @Override
     public String toString() {
         return this.key + " ";
     }

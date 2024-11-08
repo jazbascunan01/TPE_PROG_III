@@ -51,7 +51,7 @@ public class Backtracking {
         // Si no quedan tareas por asignar, se evalúa la solución actual
         if (tareas.isEmpty()) {
             if (mejorSolucion.isEmpty() || solucionActual.getTiempoEjecucion() < mejorSolucion.getTiempoEjecucion()) {
-                mejorSolucion = solucionActual.copy();  // Copia la mejor solución encontrada hasta ahora
+                mejorSolucion = solucionActual.copiar();  // Copia la mejor solución encontrada hasta ahora
             }
             return;  // Regresa ya que no hay más tareas
         }

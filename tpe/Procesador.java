@@ -22,7 +22,7 @@ public class Procesador {
         this.cantCriticas = 0;
     }
 
-    public Procesador copy() {
+    public Procesador copiar() {
         Procesador copia = new Procesador(this.id, this.codigo, this.refrigerado, this.anioFuncionamiento);
         for (Tarea t : this.tareas) {
             copia.addTarea(t);//hacer add tarea
