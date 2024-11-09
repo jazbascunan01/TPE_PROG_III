@@ -2,7 +2,7 @@ package tpe;
 
 public class Tarea {
 
-    private String id;
+    private final String id;
     private String nombre;
     private Integer tiempo;
     private Boolean critica;
@@ -54,12 +54,18 @@ public class Tarea {
 
 @Override
 public String toString() {
-    return String.format(
-        "\n========================================\n" +
-        "            Tarea Detalles             \n" +
-        "========================================\n" +
-        "ID: %s\nNombre: %s\nTiempo: %d unidades de tiempo\nCrítica: %s\nPrioridad: %d\n" +
-        "----------------------------------------\n", 
+    return String.format("""
+                         
+                         ========================================
+                                     Tarea Detalles             
+                         ========================================
+                         ID: %s
+                         Nombre: %s
+                         Tiempo: %d unidades de tiempo
+                         Cr\u00edtica: %s
+                         Prioridad: %d
+                         ----------------------------------------
+                         """, 
         this.id, this.nombre, this.tiempo, this.critica ? "Sí" : "No", this.prioridad
     );
 }
