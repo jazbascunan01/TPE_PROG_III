@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Solucion {
 
-    private ArrayList<Procesador> procesadores;
+    private final ArrayList<Procesador> procesadores;
     private int tiempoEjecucion;
     private int contadorEstados;
 
@@ -24,24 +24,24 @@ public class Solucion {
         return procesadores.isEmpty();
     }
 
-    public Solucion copiar(){ 
+    public Solucion copiar() {
         Solucion sol = new Solucion(new ArrayList<>());
         sol.setTiempoEjecucion(this.tiempoEjecucion);
         sol.setContadorEstados(this.contadorEstados);
-        for (Procesador p : this.procesadores){
+        for (Procesador p : this.procesadores) {
             sol.addProcesador(p.copiar());
         }
         return sol;
     }
 
     public void actualizarTiempoEjecucion(Procesador p) {
-        if (p.getTiempoEjecucion()>this.tiempoEjecucion){
+        if (p.getTiempoEjecucion() > this.tiempoEjecucion) {
             this.tiempoEjecucion = p.getTiempoEjecucion();
         }
     }
 
     public void actualizarTiempoEjecucion(Procesador p, Tarea t) {
-        if (p.getTiempoEjecucion()==this.tiempoEjecucion){
+        if (p.getTiempoEjecucion() == this.tiempoEjecucion) {
             this.tiempoEjecucion = this.tiempoEjecucion - t.getTiempo();
         }
     }
@@ -68,49 +68,45 @@ public class Solucion {
 
     public void addProcesador(Procesador p) {
         this.procesadores.add(p);
-        if(p.getTiempoEjecucion()>this.tiempoEjecucion){
+        if (p.getTiempoEjecucion() > this.tiempoEjecucion) {
             this.tiempoEjecucion = p.getTiempoEjecucion();
         }
-    }
-
-    public boolean containsTarea(Tarea t) {
-        for (Procesador p : procesadores) {
-            if(p.contieneTarea(t)){
-                return true;
-            }
-        }
-        return false;
     }
 
     public void incrementarContadorEstados() {
         this.contadorEstados++;
     }
-@Override
-public String toString() {
-    StringBuilder texto = new StringBuilder(
-        "\n========================================\n" +
-        "           Solución Obtenida           \n" +
-        "========================================\n" +
-        "Procesadores involucrados:\n"
-    );
 
-    if (this.procesadores.isEmpty()) {
-        texto.append("  No se encontraron procesadores.\n");
-    } else {
-        for (Procesador p : this.procesadores) {
-            texto.append(p.toString()).append("\n");
+    @Override
+    public String toString() {
+        StringBuilder texto = new StringBuilder(
+                """
+                
+                ========================================
+                           Soluci\u00f3n Obtenida           
+                ========================================
+                Procesadores involucrados:
+                """);
+
+        if (this.procesadores.isEmpty()) {
+            texto.append("  No se encontraron procesadores.\n");
+        } else {
+            for (Procesador p : this.procesadores) {
+                texto.append(p.toString()).append("\n");
+            }
         }
+
+        texto.append(String.format("""
+                                   
+                                   Informaci\u00f3n adicional:
+                                     -- Tiempo de ejecuci\u00f3n: %d segundos
+                                     -- Contador de estados: %d
+                                   ****************************************
+                                   """,
+                this.tiempoEjecucion, this.contadorEstados
+        ));
+
+        return texto.toString();
     }
 
-    texto.append(String.format(
-        "\nInformación adicional:\n" +
-        "  -- Tiempo de ejecución: %d segundos\n" +
-        "  -- Contador de estados: %d\n" +
-        "****************************************\n",
-        this.tiempoEjecucion, this.contadorEstados
-    ));
-
-    return texto.toString();
-}
-    
 }
