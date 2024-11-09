@@ -12,84 +12,90 @@ public class Procesador {
     private int tiempoEjecucion;
     private int cantCriticas;
 
-    public Procesador(String id, String codigo,boolean refrigerado, int anioFuncionamiento) {
-        this.tareas = new ArrayList<>();
-        this.refrigerado = refrigerado;
+    // Constructor principal que inicializa el procesador con sus propiedades
+    public Procesador(String id, String codigo, boolean refrigerado, int anioFuncionamiento) {
         this.id = id;
         this.codigo = codigo;
+        this.refrigerado = refrigerado;
         this.anioFuncionamiento = anioFuncionamiento;
+        this.tareas = new ArrayList<>();
         this.tiempoEjecucion = 0;
         this.cantCriticas = 0;
     }
 
+    // Método para copiar el estado actual del procesador
     public Procesador copiar() {
-        Procesador copia = new Procesador(this.id, this.codigo, this.refrigerado, this.anioFuncionamiento);
-        for (Tarea t : this.tareas) {
-            copia.addTarea(t);
-        }
-        return copia;
+        Procesador copiaProcesador = new Procesador(this.id, this.codigo, this.refrigerado, this.anioFuncionamiento);
+        copiaProcesador.tareas.addAll(this.tareas);  // Copiar tareas asociadas
+        copiaProcesador.tiempoEjecucion = this.tiempoEjecucion;
+        copiaProcesador.cantCriticas = this.cantCriticas;
+        return copiaProcesador;
     }
 
+    // Devuelve el tiempo total de ejecución acumulado por el procesador
     public int getTiempoEjecucion() {
         return tiempoEjecucion;
     }
 
-    public void addTarea(Tarea t) {
-        this.tareas.add(t);
-        this.tiempoEjecucion = this.tiempoEjecucion + t.getTiempo();
-        if (t.getCritica()) {
-            this.cantCriticas++;
+    // Método para agregar una tarea al procesador
+    public void addTarea(Tarea tarea) {
+        tareas.add(tarea);
+        tiempoEjecucion += tarea.getTiempo();  // Actualiza el tiempo de ejecución
+        if (tarea.getCritica()) {
+            cantCriticas++;  // Incrementa la cantidad de tareas críticas
         }
     }
 
-    public void deleteTarea(Tarea t) {
-        this.tareas.remove(t);
-        this.tiempoEjecucion = this.tiempoEjecucion - t.getTiempo();
-        if (t.getCritica()) {
-            this.cantCriticas--;
+    // Método para eliminar una tarea asignada al procesador
+    public void deleteTarea(Tarea tarea) {
+        tareas.remove(tarea);
+        tiempoEjecucion -= tarea.getTiempo();  // Resta el tiempo de la tarea eliminada
+        if (tarea.getCritica()) {
+            cantCriticas--;  // Decrementa la cantidad de tareas críticas si aplica
         }
     }
 
-    public boolean contieneTarea(Tarea t) {
-        return this.tareas.contains(t);
+    // Verifica si una tarea ya está asignada al procesador
+    public boolean contieneTarea(Tarea tarea) {
+        return tareas.contains(tarea);
     }
 
+    // Verifica si el procesador cuenta con refrigeración
     public boolean isRefrigerado() {
         return refrigerado;
     }
 
+    // Retorna la cantidad de tareas críticas asignadas al procesador
     public int getCantCriticas() {
-        return this.cantCriticas;
+        return cantCriticas;
     }
 
+    // Sobrescribe el método toString para generar una representación en texto del procesador
     @Override
     public String toString() {
-        StringBuilder texto = new StringBuilder();
-    
-        // Longitud total del marco
-        int longitudLinea = 45;
-        
-        // Texto del procesador centrado
-        String procesadorTexto = "Procesador: " + this.id;
-        int espaciosLado = (longitudLinea - procesadorTexto.length() - 2) / 2; // -2 por los asteriscos laterales
-    
-        // Enmarcar con asteriscos y añadir el procesador
-        texto.append("****************************************\n");
-        texto.append("*").append(" ".repeat(longitudLinea - 2)).append("*\n"); // Línea vacía
-        texto.append("*").append(" ".repeat(espaciosLado)).append(procesadorTexto)
-             .append(" ".repeat(longitudLinea - espaciosLado - procesadorTexto.length() - 2)).append("*\n");
-        texto.append("*").append(" ".repeat(longitudLinea - 2)).append("*\n"); // Línea vacía
-        texto.append("****************************************\n");
-    
-        texto.append(" Tareas:\n");
-    
-        // Añadimos cada tarea relacionada
-        for (Tarea t : this.tareas) {
-            texto.append(t.toString());
-        }
-    
-        return texto.toString();
-    }
-    
+        StringBuilder resultado = new StringBuilder();
 
+        // Longitud del borde
+        int longitudLinea = 45;
+        String encabezado = "Procesador: " + id;
+
+        // Cálculo para centrar el texto dentro del marco
+        int padding = (longitudLinea - encabezado.length() - 2) / 2;
+
+        // Construcción del marco
+        resultado.append("*".repeat(longitudLinea)).append("\n");
+        resultado.append("*").append(" ".repeat(longitudLinea - 2)).append("*\n");  // Línea vacía
+        resultado.append("*").append(" ".repeat(padding)).append(encabezado)
+                 .append(" ".repeat(longitudLinea - padding - encabezado.length() - 2)).append("*\n");
+        resultado.append("*").append(" ".repeat(longitudLinea - 2)).append("*\n");  // Línea vacía
+        resultado.append("*".repeat(longitudLinea)).append("\n");
+
+        // Listado de tareas asignadas al procesador
+        resultado.append(" Tareas:\n");
+        for (Tarea tarea : tareas) {
+            resultado.append(tarea).append("\n");
+        }
+
+        return resultado.toString();
+    }
 }
