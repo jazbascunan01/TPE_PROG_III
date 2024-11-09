@@ -4,6 +4,14 @@ public class Main {
 
     public static void main(String args[]) {
         Servicios servicios = new Servicios("tpe\\datasets\\Procesadores.csv", "tpe\\datasets\\Tareas.csv");
+        
+        
+
+        /*************************************/
+        /*                                   */
+        /*             PRUEBAS               */
+        /*                                   */
+        /*************************************/
         System.out.println("Tarea 1 DE PRUEBA");
         System.out.println(servicios.servicio1("T1").toString());
         System.out.println("CRITICAS");
