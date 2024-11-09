@@ -75,7 +75,7 @@ public class Solucion {
 
     public boolean containsTarea(Tarea t) {
         for (Procesador p : procesadores) {
-            if(p.containsTarea(t)){
+            if(p.contieneTarea(t)){
                 return true;
             }
         }

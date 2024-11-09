@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 public class Procesador {
 
-    private String id;
-    private String codigo;
-    private boolean refrigerado;
-    private int anioFuncionamiento;
-    private ArrayList<Tarea> tareas;
+    private final String id;
+    private final String codigo;
+    private final boolean refrigerado;
+    private final int anioFuncionamiento;
+    private final ArrayList<Tarea> tareas;
     private int tiempoEjecucion;
     private int cantCriticas;
 
@@ -25,21 +25,13 @@ public class Procesador {
     public Procesador copiar() {
         Procesador copia = new Procesador(this.id, this.codigo, this.refrigerado, this.anioFuncionamiento);
         for (Tarea t : this.tareas) {
-            copia.addTarea(t);//hacer add tarea
+            copia.addTarea(t);
         }
         return copia;
     }
 
-    public int size() {
-        return this.tareas.size();
-    }
-
     public int getTiempoEjecucion() {
         return tiempoEjecucion;
-    }
-
-    public void setTiempoEjecucion(int tiempoEjecucion) {
-        this.tiempoEjecucion = tiempoEjecucion;
     }
 
     public void addTarea(Tarea t) {
@@ -58,7 +50,7 @@ public class Procesador {
         }
     }
 
-    public boolean containsTarea(Tarea t) {
+    public boolean contieneTarea(Tarea t) {
         return this.tareas.contains(t);
     }
 
