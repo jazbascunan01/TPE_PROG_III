@@ -6,9 +6,9 @@ import java.util.LinkedList;
 public class Backtracking {
 
     private Solucion mejorSolucion;  // Solución óptima
-    private ArrayList<Procesador> procesadores;  // Procesadores disponibles
-    private LinkedList<Tarea> tareasCriticas;    // Tareas críticas
-    private LinkedList<Tarea> tareas;     // Todas las tareas (críticas y no críticas)
+    private final ArrayList<Procesador> procesadores;  // Procesadores disponibles
+    private final LinkedList<Tarea> tareasCriticas;    // Tareas críticas
+    private final LinkedList<Tarea> tareas;     // Todas las tareas (críticas y no críticas)
     private int limiteTiempo;                    // Límite para procesadores sin refrigeración
 
     // Constructor que recibe los procesadores y las listas de tareas
