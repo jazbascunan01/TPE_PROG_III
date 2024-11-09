@@ -2,8 +2,9 @@ package tpe;
 
 import java.util.Iterator;
 
+@SuppressWarnings("hiding")
 public class IteratorP<Procesador> implements Iterator<Procesador>{
-    private Iterator<Procesador> iterador;
+    private final Iterator<Procesador> iterador;
 
     public IteratorP(Iterator<Procesador> iterador) {
         this.iterador = iterador;
