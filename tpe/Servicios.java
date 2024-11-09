@@ -68,8 +68,9 @@ public class Servicios {
         return back.ejecutarBacktracking(tiempoEjecucion);
     }
 
-    public Solucion asignarTareasGreedy() {
-        Greedy greedy = new Greedy(this.procesadores, this.tareasCriticas, this.tareasNoCriticas);
-        return greedy.asignarTareasGreedy();
-    }
+	public Solucion asignarTareasGreedy(int tiempoEjecucion) {
+		Greedy greedy = new Greedy(this.procesadores, this.tareasCriticas, this.tareasNoCriticas);
+		return greedy.asignarTareasGreedy(tiempoEjecucion);
+	}
+	
 }

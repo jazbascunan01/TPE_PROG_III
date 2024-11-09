@@ -15,7 +15,7 @@ public class Main {
         Solucion solucion = servicios.asignarTareasBack(70);
         System.out.println(solucion); 
         System.out.println("GREEDY");
-        Solucion solucionGreedy = servicios.asignarTareasGreedy();
+        Solucion solucionGreedy = servicios.asignarTareasGreedy(70);
         System.out.println(solucionGreedy);
     }
 }
