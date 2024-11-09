@@ -2,11 +2,12 @@ package tpe;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Objects;
 
 public class Greedy {
 
     private final ArrayList<Procesador> procesadores;
-    private LinkedList<Tarea> tareasCriticas;
+    private final LinkedList<Tarea> tareasCriticas;
     private final LinkedList<Tarea> tareasNoCriticas;
     private int tiempoTotal;
 
@@ -50,10 +51,10 @@ public class Greedy {
 
         // Ordenamos las tareas por criticidad, prioridad y tiempo
         todasTareas.sort((t1, t2) -> {
-            if (t1.getCritica() != t2.getCritica()) {
+            if (!Objects.equals(t1.getCritica(), t2.getCritica())) {
                 return Boolean.compare(t2.getCritica(), t1.getCritica()); // Tareas críticas primero
             }
-            if (t1.getPrioridad() != t2.getPrioridad()) {
+            if (!Objects.equals(t1.getPrioridad(), t2.getPrioridad())) {
                 return Integer.compare(t2.getPrioridad(), t1.getPrioridad()); // Luego por prioridad
             }
             return Integer.compare(t1.getTiempo(), t2.getTiempo()); // Finalmente, por tiempo
